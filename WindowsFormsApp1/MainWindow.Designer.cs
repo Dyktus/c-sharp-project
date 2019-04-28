@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.Windows.Forms.ColumnHeader studentNamesColumn;
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainWindow));
             this.marksButton = new System.Windows.Forms.Button();
             this.subjectsButton = new System.Windows.Forms.Button();
@@ -38,6 +39,13 @@
             this.setMark = new System.Windows.Forms.Button();
             this.subjectsPanel = new System.Windows.Forms.Panel();
             this.addSubjectButton = new System.Windows.Forms.Button();
+            this.studentsList = new System.Windows.Forms.ListView();
+            this.studentStreet = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.studentCity = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.studentZipCode = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.studentBirthDate = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.studentClassName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            studentNamesColumn = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.studentsPanel.SuspendLayout();
             this.marksPanel.SuspendLayout();
             this.subjectsPanel.SuspendLayout();
@@ -87,6 +95,7 @@
             // 
             // studentsPanel
             // 
+            this.studentsPanel.Controls.Add(this.studentsList);
             this.studentsPanel.Controls.Add(this.addStudent);
             this.studentsPanel.Location = new System.Drawing.Point(13, 65);
             this.studentsPanel.Name = "studentsPanel";
@@ -152,6 +161,51 @@
             this.addSubjectButton.Text = "DODAJ PRZEDMIOT";
             this.addSubjectButton.UseVisualStyleBackColor = false;
             // 
+            // studentsList
+            // 
+            this.studentsList.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            studentNamesColumn,
+            this.studentStreet,
+            this.studentCity,
+            this.studentZipCode,
+            this.studentBirthDate,
+            this.studentClassName});
+            this.studentsList.Location = new System.Drawing.Point(17, 58);
+            this.studentsList.Name = "studentsList";
+            this.studentsList.Size = new System.Drawing.Size(926, 333);
+            this.studentsList.TabIndex = 5;
+            this.studentsList.UseCompatibleStateImageBehavior = false;
+            // 
+            // studentNamesColumn
+            // 
+            studentNamesColumn.Text = "Imie i nazwisko";
+            studentNamesColumn.Width = 120;
+            // 
+            // studentStreet
+            // 
+            this.studentStreet.Text = "Ulica";
+            this.studentStreet.Width = 120;
+            // 
+            // studentCity
+            // 
+            this.studentCity.Text = "Miasto";
+            this.studentCity.Width = 120;
+            // 
+            // studentZipCode
+            // 
+            this.studentZipCode.Text = "Kod pocztowy";
+            this.studentZipCode.Width = 120;
+            // 
+            // studentBirthDate
+            // 
+            this.studentBirthDate.Text = "Data urodzenia";
+            this.studentBirthDate.Width = 120;
+            // 
+            // studentClassName
+            // 
+            this.studentClassName.Text = "Klasa";
+            this.studentClassName.Width = 120;
+            // 
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -185,6 +239,12 @@
         private System.Windows.Forms.Panel subjectsPanel;
         private System.Windows.Forms.Button setMark;
         private System.Windows.Forms.Button addSubjectButton;
+        private System.Windows.Forms.ListView studentsList;
+        private System.Windows.Forms.ColumnHeader studentStreet;
+        private System.Windows.Forms.ColumnHeader studentCity;
+        private System.Windows.Forms.ColumnHeader studentZipCode;
+        private System.Windows.Forms.ColumnHeader studentBirthDate;
+        private System.Windows.Forms.ColumnHeader studentClassName;
     }
 }
 

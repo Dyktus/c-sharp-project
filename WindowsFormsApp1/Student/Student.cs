@@ -11,12 +11,12 @@ namespace DzienniczekUcznia.Student
 {
     class Student
     {
-        private string names;
-        private string street;
-        private string city;
-        private string zipCode;
-        private string birthDate;
-        private string studentClass;
+        public string names { get; }
+        public string street { get; }
+        public string city { get; }
+        public string zipCode { get; }
+        public string birthDate { get; }
+        public string studentClass { get; }
 
         private SQLiteConnection dbConnection;
 
@@ -35,37 +35,35 @@ namespace DzienniczekUcznia.Student
             this.zipCode = zipCode;
             this.birthDate = birthDate;
             this.studentClass = studentClass;
-            this.dbConnection = AppContainer.GetDatabaseConnection();
         }
 
-        public void Save()
+        public Boolean Save()
         {
+            this.dbConnection = AppContainer.GetDatabaseConnection();
             this.dbConnection.Open();
             try
             {
-                this.dbConnection.BeginTransaction();
-
-                SQLiteCommand command = this.dbConnection.CreateCommand();
-                // Id, Names, Street, City, ZipCode, BirthDate, StudentClass
-                command.CommandText = "INSERT INTO student (Names, Street, City, ZipCode, BirthDate, StudentClass) VALUES(" +
+                string sql = "INSERT INTO student (Names, Street, City, ZipCode, BirthDate, StudentClass) VALUES(" +
                     "'" + this.names + "'," +
                     "'" + this.street + "'," +
                     "'" + this.city + "'," +
                     "'" + this.zipCode + "'," +
-                    "'" + this.birthDate.ToString() + "'," +
-                    "'" + this.studentClass.ToString() + "')";
-                command.ExecuteNonQuery();
-                SimpleMessage result = new SimpleMessage("Student zapisany");
+                    "'" + this.birthDate + "'," +
+                    "'" + this.studentClass + "')";
+                SQLiteCommand command = new SQLiteCommand(sql, this.dbConnection);
+                Int32 affectedRows = command.ExecuteNonQuery();
+                SimpleMessage result = new SimpleMessage("Student zapisany. Zmienionych wierszy: " + affectedRows, "Sukces!");
 
+                return true;
             }catch(SQLiteException exception)
             {
                 SimpleMessage result = new SimpleMessage(exception.ToString(), "Blad zapisu ucznia");
+                return false;
             }
             finally
             {
                 this.dbConnection.Close();
             }
-            
         }
 
         private void validate()

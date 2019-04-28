@@ -11,6 +11,7 @@ using System.Windows.Forms;
 using App;
 using MainWindowForm;
 using DzienniczekUcznia.Student;
+using DzienniczekUcznia.Errors;
 
 namespace StudentForm
 {
@@ -50,14 +51,17 @@ namespace StudentForm
         private void SaveStudentButton_Click(object sender, EventArgs e)
         {
             Student student = new Student(
-                this.studentNameInput.ToString(),
-                this.studentStreetInput.ToString(),
-                this.studentCityInput.ToString(),
-                this.studentZipCodeInput.ToString(),
-                this.studentBirthDate.ToString(),
-                this.studentClassList.ToString()
+                this.studentNameInput.Text,
+                this.studentStreetInput.Text,
+                this.studentCityInput.Text,
+                this.studentZipCodeInput.Text,
+                this.studentBirthDate.SelectionRange.Start.ToShortDateString(),
+                this.studentClassList.GetItemText(this.studentClassList.SelectedItem)
             );
-            student.Save();
+            if(student.Save())
+            {
+                this.Close();
+            }
         }
     }
 }

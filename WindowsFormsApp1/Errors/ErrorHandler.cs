@@ -9,6 +9,7 @@ namespace DzienniczekUcznia.Errors
 {
     class SimpleMessage
     {
+        private DialogResult result;
         public SimpleMessage
         (
             string message,
@@ -16,10 +17,13 @@ namespace DzienniczekUcznia.Errors
         )
         {
             MessageBoxButtons buttons = MessageBoxButtons.OK;
-            DialogResult result;
-
             // Displays the MessageBox.
-            result = MessageBox.Show(message, caption, buttons);
+            this.result = MessageBox.Show(message, caption, buttons);
+        }
+
+        public DialogResult get()
+        {
+            return this.result;
         }
     }
 }

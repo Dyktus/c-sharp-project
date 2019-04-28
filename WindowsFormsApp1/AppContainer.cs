@@ -13,7 +13,7 @@ namespace App
 {
     class AppContainer
     {
-        const string DATABASE_NAME = "/../../DzienniczekUcznia.sqlite";
+        const string DATABASE_NAME = "\\..\\..\\DzienniczekUcznia.sqlite";
 
         public AppContainer()
         {

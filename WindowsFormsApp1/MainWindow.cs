@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using App;
+using StudentForm;
 
 namespace MainWindowForm
 {
@@ -16,6 +17,7 @@ namespace MainWindowForm
         public MainWindow()
         {
             InitializeComponent();
+            AppContainer.GetDatabaseConnection();
         }
 
         private void MarksButton_Click(object sender, EventArgs e)
@@ -41,6 +43,12 @@ namespace MainWindowForm
                 if (c is Panel) c.Hide();
             }
             panel.Show();
+        }
+
+        private void addStudent_Click(object sender, EventArgs e)
+        {
+            AddStudentForm studentForm = new AddStudentForm(this);
+            studentForm.ShowDialog();
         }
     }
 }

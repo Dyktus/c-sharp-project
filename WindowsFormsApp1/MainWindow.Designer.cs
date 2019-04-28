@@ -106,6 +106,7 @@
             this.addStudent.TabIndex = 4;
             this.addStudent.Text = "DODAJ UCZNIA";
             this.addStudent.UseVisualStyleBackColor = false;
+            this.addStudent.Click += new System.EventHandler(this.addStudent_Click);
             // 
             // marksPanel
             // 

@@ -1,4 +1,4 @@
-﻿namespace WindowsFormsApp1
+﻿namespace StudentForm
 {
     partial class AddStudentForm
     {
@@ -38,11 +38,11 @@
             this.studentCityInput = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
             this.studentZipCodeInput = new System.Windows.Forms.TextBox();
-            this.monthCalendar1 = new System.Windows.Forms.MonthCalendar();
+            this.studentBirthDate = new System.Windows.Forms.MonthCalendar();
             this.label5 = new System.Windows.Forms.Label();
             this.studentClassList = new System.Windows.Forms.ListBox();
             this.label6 = new System.Windows.Forms.Label();
-            this.button1 = new System.Windows.Forms.Button();
+            this.saveStudentButton = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // addStudentHeader
@@ -130,11 +130,11 @@
             this.studentZipCodeInput.Size = new System.Drawing.Size(196, 20);
             this.studentZipCodeInput.TabIndex = 9;
             // 
-            // monthCalendar1
+            // studentBirthDate
             // 
-            this.monthCalendar1.Location = new System.Drawing.Point(23, 317);
-            this.monthCalendar1.Name = "monthCalendar1";
-            this.monthCalendar1.TabIndex = 10;
+            this.studentBirthDate.Location = new System.Drawing.Point(23, 317);
+            this.studentBirthDate.Name = "studentBirthDate";
+            this.studentBirthDate.TabIndex = 10;
             // 
             // label5
             // 
@@ -162,28 +162,29 @@
             this.label6.TabIndex = 13;
             this.label6.Text = "Klasa do ktorej nalezy uczen";
             // 
-            // button1
+            // saveStudentButton
             // 
-            this.button1.BackColor = System.Drawing.Color.DarkOrange;
-            this.button1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button1.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.button1.Location = new System.Drawing.Point(265, 399);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(206, 45);
-            this.button1.TabIndex = 14;
-            this.button1.Text = "ZAPISZ";
-            this.button1.UseVisualStyleBackColor = false;
+            this.saveStudentButton.BackColor = System.Drawing.Color.DarkOrange;
+            this.saveStudentButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.saveStudentButton.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.saveStudentButton.Location = new System.Drawing.Point(265, 399);
+            this.saveStudentButton.Name = "saveStudentButton";
+            this.saveStudentButton.Size = new System.Drawing.Size(206, 45);
+            this.saveStudentButton.TabIndex = 14;
+            this.saveStudentButton.Text = "ZAPISZ";
+            this.saveStudentButton.UseVisualStyleBackColor = false;
+            this.saveStudentButton.Click += new System.EventHandler(this.SaveStudentButton_Click);
             // 
             // AddStudentForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(502, 535);
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this.saveStudentButton);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.studentClassList);
             this.Controls.Add(this.label5);
-            this.Controls.Add(this.monthCalendar1);
+            this.Controls.Add(this.studentBirthDate);
             this.Controls.Add(this.studentZipCodeInput);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.studentCityInput);
@@ -196,6 +197,7 @@
             this.Controls.Add(this.addStudentHeader);
             this.Name = "AddStudentForm";
             this.Text = "Formularz ucznia";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.AddStudentForm_FormClosed);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -213,10 +215,10 @@
         private System.Windows.Forms.TextBox studentCityInput;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.TextBox studentZipCodeInput;
-        private System.Windows.Forms.MonthCalendar monthCalendar1;
+        private System.Windows.Forms.MonthCalendar studentBirthDate;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.ListBox studentClassList;
         private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button saveStudentButton;
     }
 }

@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.Windows.Forms.ColumnHeader studentNamesColumn;
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainWindow));
             this.marksButton = new System.Windows.Forms.Button();
@@ -45,10 +46,15 @@
             this.studentZipCode = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.studentBirthDate = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.studentClassName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.StudentContextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.removeStudent = new System.Windows.Forms.ToolStripMenuItem();
+            this.editStudent = new System.Windows.Forms.ToolStripMenuItem();
+            this.studentId = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             studentNamesColumn = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.studentsPanel.SuspendLayout();
             this.marksPanel.SuspendLayout();
             this.subjectsPanel.SuspendLayout();
+            this.StudentContextMenu.SuspendLayout();
             this.SuspendLayout();
             // 
             // marksButton
@@ -164,6 +170,7 @@
             // studentsList
             // 
             this.studentsList.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.studentId,
             studentNamesColumn,
             this.studentStreet,
             this.studentCity,
@@ -175,6 +182,7 @@
             this.studentsList.Size = new System.Drawing.Size(926, 333);
             this.studentsList.TabIndex = 5;
             this.studentsList.UseCompatibleStateImageBehavior = false;
+            this.studentsList.MouseClick += new System.Windows.Forms.MouseEventHandler(this.studentsList_MouseClick);
             // 
             // studentNamesColumn
             // 
@@ -206,6 +214,32 @@
             this.studentClassName.Text = "Klasa";
             this.studentClassName.Width = 120;
             // 
+            // StudentContextMenu
+            // 
+            this.StudentContextMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.removeStudent,
+            this.editStudent});
+            this.StudentContextMenu.Name = "StudentContextMenu";
+            this.StudentContextMenu.Size = new System.Drawing.Size(106, 48);
+            // 
+            // removeStudent
+            // 
+            this.removeStudent.Name = "removeStudent";
+            this.removeStudent.Size = new System.Drawing.Size(105, 22);
+            this.removeStudent.Text = "Usun";
+            this.removeStudent.Click += new System.EventHandler(this.RemoveStudent_Click);
+            // 
+            // editStudent
+            // 
+            this.editStudent.Name = "editStudent";
+            this.editStudent.Size = new System.Drawing.Size(105, 22);
+            this.editStudent.Text = "Edytuj";
+            this.editStudent.Click += new System.EventHandler(this.EditStudent_Click);
+            // 
+            // studentId
+            // 
+            this.studentId.Text = "Id";
+            // 
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -224,6 +258,7 @@
             this.studentsPanel.ResumeLayout(false);
             this.marksPanel.ResumeLayout(false);
             this.subjectsPanel.ResumeLayout(false);
+            this.StudentContextMenu.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -245,6 +280,10 @@
         private System.Windows.Forms.ColumnHeader studentZipCode;
         private System.Windows.Forms.ColumnHeader studentBirthDate;
         private System.Windows.Forms.ColumnHeader studentClassName;
+        private System.Windows.Forms.ContextMenuStrip StudentContextMenu;
+        private System.Windows.Forms.ToolStripMenuItem removeStudent;
+        private System.Windows.Forms.ToolStripMenuItem editStudent;
+        private System.Windows.Forms.ColumnHeader studentId;
     }
 }
 

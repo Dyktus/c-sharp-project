@@ -34,6 +34,15 @@ namespace StudentForm
             this.studentClassList.DataSource = _classes;
 
             this.dbConnection = AppContainer.GetDatabaseConnection();
+        }
+
+        // Constructor overloading with chaining original constructor
+        public AddStudentForm(MainWindow MainWindow, Student student) : this(MainWindow)
+        {
+            this.studentNameInput.Text = student.names;
+            this.studentStreetInput.Text = student.street;
+            this.studentCityInput.Text = student.city;
+            this.studentZipCodeInput.Text = student.zipCode;
 
         }
 
@@ -43,14 +52,10 @@ namespace StudentForm
             this.mainWindow.Show();
         }
 
-        private void LoadStudent(Int32 studentId)
-        {
-
-        }
-
         private void SaveStudentButton_Click(object sender, EventArgs e)
         {
             Student student = new Student(
+                0, //Id is not required here
                 this.studentNameInput.Text,
                 this.studentStreetInput.Text,
                 this.studentCityInput.Text,

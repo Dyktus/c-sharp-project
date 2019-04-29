@@ -56,7 +56,8 @@
       <DependentUpon>AddStudentForm.cs</DependentUpon>
     </Compile>
     <Compile Include="AppContainer.cs" />
-    <Compile Include="Errors\ErrorHandler.cs" />
+    <Compile Include="Notifications\ChoiceMessage.cs" />
+    <Compile Include="Notifications\SimpleMessage.cs" />
     <Compile Include="MainWindow.cs">
       <SubType>Form</SubType>
     </Compile>

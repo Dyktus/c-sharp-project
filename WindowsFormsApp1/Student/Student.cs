@@ -9,8 +9,9 @@ using DzienniczekUcznia.Errors;
 
 namespace DzienniczekUcznia.Student
 {
-    class Student
+    public class Student
     {
+        public Int32 id { get; }
         public string names { get; }
         public string street { get; }
         public string city { get; }
@@ -21,6 +22,7 @@ namespace DzienniczekUcznia.Student
         private SQLiteConnection dbConnection;
 
         public Student(
+            Int32 id,
             string names,
             string street,
             string city,
@@ -29,12 +31,33 @@ namespace DzienniczekUcznia.Student
             string studentClass
         ) 
         {
+            this.id = id;
             this.names = names;
             this.street = street;
             this.city = city;
             this.zipCode = zipCode;
             this.birthDate = birthDate;
             this.studentClass = studentClass;
+        }
+
+        public static Boolean Remove(string studentId)
+        {
+            SQLiteConnection db = AppContainer.GetDatabaseConnection();
+            db.Open();
+            try
+            {
+                string sql = "DELETE FROM student WHERE Id=" + studentId;
+                SQLiteCommand command = new SQLiteCommand(sql, db);
+                command.ExecuteNonQuery();
+                return true;
+            }catch(SQLiteException error)
+            {
+                SimpleMessage result = new SimpleMessage(error.ToString(), "Blad kasowania ucznia");
+                return false;
+            }
+            finally {
+                db.Close();
+            }
         }
 
         public Boolean Save()
@@ -52,7 +75,7 @@ namespace DzienniczekUcznia.Student
                     "'" + this.studentClass + "')";
                 SQLiteCommand command = new SQLiteCommand(sql, this.dbConnection);
                 Int32 affectedRows = command.ExecuteNonQuery();
-                SimpleMessage result = new SimpleMessage("Student zapisany. Zmienionych wierszy: " + affectedRows, "Sukces!");
+                SimpleMessage result = new SimpleMessage("Uczen zapisany. Zmienionych wierszy: " + affectedRows, "Sukces!");
 
                 return true;
             }catch(SQLiteException exception)

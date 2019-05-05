@@ -11,13 +11,13 @@ namespace DzienniczekUcznia.Student
 {
     public class Student
     {
-        public Int32 id { get; }
-        public string names { get; }
-        public string street { get; }
-        public string city { get; }
-        public string zipCode { get; }
-        public string birthDate { get; }
-        public string studentClass { get; }
+        public Int32 id { get; set; }
+        public string names { get; set; }
+        public string street { get; set; }
+        public string city { get; set; }
+        public string zipCode { get; set; }
+        public string birthDate { get; set; }
+        public string studentClass { get; set; }
 
         private SQLiteConnection dbConnection;
 
@@ -57,6 +57,36 @@ namespace DzienniczekUcznia.Student
             }
             finally {
                 db.Close();
+            }
+        }
+
+        public Boolean Update()
+        {
+            this.dbConnection = AppContainer.GetDatabaseConnection();
+            this.dbConnection.Open();
+            try
+            {
+                string sql = "UPDATE student SET Names='" + this.names + "', " +
+                    "Street='" +this.street + "', " +
+                    "City='" + this.city + "', " +
+                    "ZipCode='" + this.zipCode + "', " +
+                    "BirthDate='" + this.birthDate + "', " +
+                    "StudentClass='" + this.studentClass + "' WHERE Id=" + this.id.ToString();
+
+                SQLiteCommand command = new SQLiteCommand(sql, this.dbConnection);
+                Int32 affectedRows = command.ExecuteNonQuery();
+                SimpleMessage result = new SimpleMessage("Uczen zaktualizowany. Zmienionych wierszy: " + affectedRows, "Sukces!");
+
+                return true;
+            }
+            catch (SQLiteException exception)
+            {
+                SimpleMessage result = new SimpleMessage(exception.ToString(), "Blad aktualizacji ucznia");
+                return false;
+            }
+            finally
+            {
+                this.dbConnection.Close();
             }
         }
 

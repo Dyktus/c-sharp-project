@@ -9,9 +9,11 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using App;
+using DzienniczekUcznia;
 using DzienniczekUcznia.Errors;
 using DzienniczekUcznia.Notifications;
 using DzienniczekUcznia.Student;
+using DzienniczekUcznia.SubjectModel;
 using StudentForm;
 
 namespace MainWindowForm
@@ -20,21 +22,12 @@ namespace MainWindowForm
     {
         private SQLiteConnection dbConnection;
         List<Student> _students = new List<Student>();
+        List<string> _subjects = new List<string>();
 
         public MainWindow()
         {
             InitializeComponent();
             this.dbConnection = AppContainer.GetDatabaseConnection();
-        }
-
-        private void MarksButton_Click(object sender, EventArgs e)
-        {
-            this.SwitchOnPanel(this.marksPanel);
-        }
-
-        private void SubjectsButton_Click(object sender, EventArgs e)
-        {
-            this.SwitchOnPanel(this.subjectsPanel);
         }
 
         private void StudentsListButton_Click(object sender, EventArgs e)
@@ -59,6 +52,7 @@ namespace MainWindowForm
             studentForm.ShowDialog();
         }
 
+        // Right click on students list
         private void studentsList_MouseClick(object sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Right)
@@ -66,6 +60,18 @@ namespace MainWindowForm
                 if (this.studentsList.FocusedItem.Bounds.Contains(e.Location))
                 {
                     this.StudentContextMenu.Show(Cursor.Position);
+                }
+            }
+        }
+
+        // Right click on subjects list
+        private void subjectsList_MouseClick(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Right)
+            {
+                if (this.subjectsList.FocusedItem.Bounds.Contains(e.Location))
+                {
+                    this.SubjectContextMenu.Show(Cursor.Position);
                 }
             }
         }
@@ -96,7 +102,7 @@ namespace MainWindowForm
             studentForm.ShowDialog();
         }
 
-        private void getAllStudents()
+        public void getAllStudents()
         {
             this.dbConnection.Open();
             // Clear the air
@@ -149,6 +155,70 @@ namespace MainWindowForm
             {
                 this.dbConnection.Close();
             }
+        }
+
+        // SUBJECTS - START
+        public void getAllSubjects()
+        {
+            this.dbConnection.Open();
+            // Clear the air
+            this.subjectsList.Items.Clear();
+            _subjects.Clear();
+
+            try
+            {
+                string sql = "SELECT * FROM subject";
+                SQLiteCommand command = new SQLiteCommand(sql, this.dbConnection);
+                SQLiteDataReader reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    string[] row = { reader["Id"].ToString(), reader["SubjectName"].ToString() };
+                    ListViewItem item = new ListViewItem(row);
+                    this.subjectsList.Items.Add(item);
+                }
+                this.subjectsList.FullRowSelect = true;
+                this.subjectsList.View = View.Details;
+            }
+            catch (SQLiteException exception)
+            {
+                SimpleMessage result = new SimpleMessage(exception.ToString(), "Blad odczytu listy przedmiotow");
+            }
+            finally
+            {
+                this.dbConnection.Close();
+            }
+        }
+
+        private void subjectsButton_Click(object sender, EventArgs e)
+        {
+            this.SwitchOnPanel(this.subjectsPanel);
+            this.getAllSubjects();
+        }
+        private void addSubjectButton_Click(object sender, EventArgs e)
+        {
+            SubjectForm form = new SubjectForm(this);
+            form.ShowDialog();
+        }
+
+        private void RemoveSubject_Click(object sender, EventArgs e)
+        {
+            string subjectId = this.subjectsList.FocusedItem.SubItems[0].Text;
+
+            if (ChoiceMessage.Create("Czy na pewno chcesz usunac wybrany przedmiot?", "Wybieraj"))
+            {
+                Subject.Remove(subjectId);
+                this.getAllSubjects();
+            }
+        }
+
+        private void EditSubject_Click(object sender, EventArgs e)
+        {
+            Subject subject = new Subject(
+                Convert.ToInt32(this.subjectsList.FocusedItem.SubItems[0].Text),
+                this.subjectsList.FocusedItem.SubItems[1].Text
+            );
+            SubjectForm subjectForm = new SubjectForm(this, subject);
+            subjectForm.ShowDialog();
         }
     }
 }

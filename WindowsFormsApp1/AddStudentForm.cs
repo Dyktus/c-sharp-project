@@ -11,16 +11,16 @@ using System.Windows.Forms;
 using App;
 using MainWindowForm;
 using DzienniczekUcznia.Student;
-using DzienniczekUcznia.Errors;
+using DzienniczekUcznia.DataProviders;
 
 namespace StudentForm
 {
     public partial class AddStudentForm : Form
     {
-
-        List<string> _classes = new List<string>();
-
         private MainWindow mainWindow;
+
+        private bool editStudentFlag = false;
+        private Student currentStudent;
 
         private SQLiteConnection dbConnection;
 
@@ -29,21 +29,24 @@ namespace StudentForm
             InitializeComponent();
             this.mainWindow = MainWindow;
             this.mainWindow.Hide();
-            _classes.Add("Klasa 1C");
-            _classes.Add("Klasa 2C");
-            this.studentClassList.DataSource = _classes;
-
+            this.studentClassList.DataSource = StudentClassProvider.GetClasess();
             this.dbConnection = AppContainer.GetDatabaseConnection();
         }
 
         // Constructor overloading with chaining original constructor
         public AddStudentForm(MainWindow MainWindow, Student student) : this(MainWindow)
         {
+            this.currentStudent = student;
             this.studentNameInput.Text = student.names;
             this.studentStreetInput.Text = student.street;
             this.studentCityInput.Text = student.city;
             this.studentZipCodeInput.Text = student.zipCode;
-
+            this.studentBirthDate.SetDate(Convert.ToDateTime(student.birthDate));
+            this.studentClassList.DataSource = StudentClassProvider.GetClasess();
+            this.studentClassList.SetSelected(this.studentClassList.FindString(student.studentClass), true);
+            this.addStudentHeader.Hide();
+            this.editStudentHeader.Show();
+            this.editStudentFlag = true;
         }
 
         // When form is closed open mainWindow back
@@ -54,7 +57,21 @@ namespace StudentForm
 
         private void SaveStudentButton_Click(object sender, EventArgs e)
         {
-            Student student = new Student(
+            
+            bool result = false;
+            if(this.editStudentFlag)
+            {
+                this.currentStudent.names = this.studentNameInput.Text;
+                this.currentStudent.street = this.studentStreetInput.Text;
+                this.currentStudent.city = this.studentCityInput.Text;
+                this.currentStudent.zipCode = this.studentZipCodeInput.Text;
+                this.currentStudent.birthDate = this.studentBirthDate.SelectionRange.Start.ToShortDateString();
+                this.currentStudent.studentClass = this.studentClassList.GetItemText(this.studentClassList.SelectedItem);
+
+                result = this.currentStudent.Update();
+            }else
+            {
+                Student student = new Student(
                 0, //Id is not required here
                 this.studentNameInput.Text,
                 this.studentStreetInput.Text,
@@ -63,8 +80,12 @@ namespace StudentForm
                 this.studentBirthDate.SelectionRange.Start.ToShortDateString(),
                 this.studentClassList.GetItemText(this.studentClassList.SelectedItem)
             );
-            if(student.Save())
+                result = student.Save();
+            }
+
+            if(result)
             {
+                this.mainWindow.getAllStudents();
                 this.Close();
             }
         }

@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using App;
 using DzienniczekUcznia;
+using DzienniczekUcznia.DataProviders;
 using DzienniczekUcznia.Errors;
 using DzienniczekUcznia.Notifications;
 using DzienniczekUcznia.Student;
@@ -163,19 +164,14 @@ namespace MainWindowForm
             this.dbConnection.Open();
             // Clear the air
             this.subjectsList.Items.Clear();
-            _subjects.Clear();
 
             try
             {
-                string sql = "SELECT * FROM subject";
-                SQLiteCommand command = new SQLiteCommand(sql, this.dbConnection);
-                SQLiteDataReader reader = command.ExecuteReader();
-                while (reader.Read())
-                {
-                    string[] row = { reader["Id"].ToString(), reader["SubjectName"].ToString() };
-                    ListViewItem item = new ListViewItem(row);
-                    this.subjectsList.Items.Add(item);
-                }
+                SubjectsProvider.GetSubjectsListView()
+                    .ForEach(
+                        subject => this.subjectsList.Items.Add(subject)
+                );
+                
                 this.subjectsList.FullRowSelect = true;
                 this.subjectsList.View = View.Details;
             }
@@ -219,6 +215,12 @@ namespace MainWindowForm
             );
             SubjectForm subjectForm = new SubjectForm(this, subject);
             subjectForm.ShowDialog();
+        }
+
+        private void startLesson_Click(object sender, EventArgs e)
+        {
+            StartLesson lessonWindow = new StartLesson(this);
+            lessonWindow.ShowDialog();
         }
     }
 }

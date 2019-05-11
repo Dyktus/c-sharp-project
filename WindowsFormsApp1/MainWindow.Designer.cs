@@ -198,6 +198,7 @@
             this.startLesson.TabIndex = 8;
             this.startLesson.Text = "ROZPOCZNIJ LEKCJE";
             this.startLesson.UseVisualStyleBackColor = false;
+            this.startLesson.Click += new System.EventHandler(this.startLesson_Click);
             // 
             // subjectsPanel
             // 

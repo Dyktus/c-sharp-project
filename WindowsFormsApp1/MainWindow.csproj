@@ -57,6 +57,7 @@
     </Compile>
     <Compile Include="AppContainer.cs" />
     <Compile Include="DataProviders\StudentClassProvider.cs" />
+    <Compile Include="DataProviders\SubjectsProvider.cs" />
     <Compile Include="Notifications\ChoiceMessage.cs" />
     <Compile Include="Notifications\SimpleMessage.cs" />
     <Compile Include="MainWindow.cs">
@@ -67,6 +68,18 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RunningLesson.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="RunningLesson.Designer.cs">
+      <DependentUpon>RunningLesson.cs</DependentUpon>
+    </Compile>
+    <Compile Include="StartLesson.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="StartLesson.Designer.cs">
+      <DependentUpon>StartLesson.cs</DependentUpon>
+    </Compile>
     <Compile Include="Student\Student.cs" />
     <Compile Include="SubjectForm.cs">
       <SubType>Form</SubType>
@@ -91,6 +104,12 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <EmbeddedResource Include="RunningLesson.resx">
+      <DependentUpon>RunningLesson.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="StartLesson.resx">
+      <DependentUpon>StartLesson.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="SubjectForm.resx">
       <DependentUpon>SubjectForm.cs</DependentUpon>
     </EmbeddedResource>

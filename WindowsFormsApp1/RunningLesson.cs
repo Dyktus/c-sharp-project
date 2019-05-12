@@ -17,6 +17,7 @@ namespace DzienniczekUcznia
     {
         private string subjectName;
         private string className;
+        private string subjectId;
 
         public RunningLesson(
             string subjectName,
@@ -36,7 +37,7 @@ namespace DzienniczekUcznia
             this.getAllStudentsWithMarks();
         }
 
-        private void getAllStudentsWithMarks()
+        public void getAllStudentsWithMarks()
         {
             SQLiteConnection db = AppContainer.GetDatabaseConnection();
             db.Open();
@@ -44,8 +45,15 @@ namespace DzienniczekUcznia
             this.studentsList.Items.Clear();
             try
             {
-                string sql = "SELECT s.Id,s.Names,sm.MarkType,sm.Mark FROM student_mark sm" +
-                    " JOIN student s ON sm.StudentId=s.Id JOIN subject sb ON sm.SubjectId=sb.Id WHERE sb.SubjectName=\"" + this.subjectName + "\"" +
+                // Get SubjectId 
+                string subjectIdSql = "SELECT Id FROM subject WHERE SubjectName=\"" + this.subjectName + "\" LIMIT 1";
+                SQLiteCommand subjectCommand = new SQLiteCommand(subjectIdSql, db);
+                SQLiteDataReader subjectReader = subjectCommand.ExecuteReader();
+
+                this.subjectId = subjectReader["Id"].ToString();
+
+                string sql = "SELECT s.Id,s.Names,sm.MarkType,sm.Mark FROM student s" +
+                    " LEFT JOIN student_mark sm ON s.Id=sm.StudentId WHERE (sm.SubjectId=" + this.subjectId + " OR sm.SubjectId IS NULL)"+
                     " AND s.StudentClass=\"" + this.className + "\"";
                 SQLiteCommand command = new SQLiteCommand(sql, db);
                 SQLiteDataReader reader = command.ExecuteReader();
@@ -64,17 +72,23 @@ namespace DzienniczekUcznia
                         marks.Add(Id, new List<string>());
                      
                     }
-                    marks[Id].Add(
-                        reader["MarkType"].ToString() + ":" + reader["Mark"].ToString()
-                    );
-                    
-                    SimpleMessage msg = new SimpleMessage(reader["MarkType"].ToString() + ":" + reader["Mark"].ToString());
 
+                    string markType = reader["MarkType"].ToString();
+                    string mark = reader["mark"].ToString();
+
+                    string markInfo = "";
+                    if(markType.Length > 0 && mark.Length > 0)
+                    {
+                        markInfo = markType + ":" + mark;
+                    }
+                    marks[Id].Add(
+                        markInfo
+                    );
                 }
 
                 foreach (KeyValuePair<string, List<string>> mark in marks)
                 {
-                    string[] row = { IdToNamesMap[mark.Key], string.Join(",",mark.Value.ToArray()) };
+                    string[] row = { mark.Key, IdToNamesMap[mark.Key], string.Join(",",mark.Value.ToArray()) };
                     ListViewItem item = new ListViewItem(row);
                     this.studentsList.Items.Add(item);
                 }
@@ -87,6 +101,24 @@ namespace DzienniczekUcznia
             }finally
             {
                 db.Close();
+            }
+        }
+
+        // Right click on students list
+        private void studentsList_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Left)
+            {
+                if (this.studentsList.FocusedItem.Bounds.Contains(e.Location))
+                {
+                    Marks markWindow = new Marks(
+                        this.studentsList.FocusedItem.SubItems[1].Text,
+                        this.studentsList.FocusedItem.SubItems[0].Text,
+                        this.subjectId,
+                        this
+                    );
+                    markWindow.ShowDialog();
+                }
             }
         }
     }

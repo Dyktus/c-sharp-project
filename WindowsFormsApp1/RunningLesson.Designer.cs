@@ -33,6 +33,7 @@
             this.studentsList = new System.Windows.Forms.ListView();
             this.studentName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.marks = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.studentId = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.SuspendLayout();
             // 
             // classLabel
@@ -58,6 +59,7 @@
             // studentsList
             // 
             this.studentsList.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.studentId,
             this.studentName,
             this.marks});
             this.studentsList.Location = new System.Drawing.Point(35, 79);
@@ -65,16 +67,24 @@
             this.studentsList.Size = new System.Drawing.Size(986, 366);
             this.studentsList.TabIndex = 3;
             this.studentsList.UseCompatibleStateImageBehavior = false;
+            this.studentsList.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.studentsList_MouseDoubleClick);
             // 
             // studentName
             // 
+            this.studentName.DisplayIndex = 0;
             this.studentName.Text = "Imie i nazwisko";
             this.studentName.Width = 120;
             // 
             // marks
             // 
+            this.marks.DisplayIndex = 1;
             this.marks.Text = "Oceny";
             this.marks.Width = 240;
+            // 
+            // studentId
+            // 
+            this.studentId.DisplayIndex = 2;
+            this.studentId.Text = "ID studenta";
             // 
             // RunningLesson
             // 
@@ -98,5 +108,6 @@
         private System.Windows.Forms.ListView studentsList;
         private System.Windows.Forms.ColumnHeader studentName;
         private System.Windows.Forms.ColumnHeader marks;
+        private System.Windows.Forms.ColumnHeader studentId;
     }
 }

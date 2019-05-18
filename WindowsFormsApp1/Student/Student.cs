@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data.SQLite;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using App;
 using DzienniczekUcznia.Errors;
@@ -62,6 +63,10 @@ namespace DzienniczekUcznia.Student
 
         public Boolean Update()
         {
+            if(!this.validate())
+            {
+                return false;
+            }
             this.dbConnection = AppContainer.GetDatabaseConnection();
             this.dbConnection.Open();
             try
@@ -92,6 +97,10 @@ namespace DzienniczekUcznia.Student
 
         public Boolean Save()
         {
+            if(!this.validate())
+            {
+                return false;
+            }
             this.dbConnection = AppContainer.GetDatabaseConnection();
             this.dbConnection.Open();
             try
@@ -119,9 +128,30 @@ namespace DzienniczekUcznia.Student
             }
         }
 
-        private void validate()
+        private bool validate()
         {
-
+            if(this.names.Length < 1)
+            {
+                SimpleMessage sm = new SimpleMessage("Imie i nazwisko musi byc podane");
+                return false;
+            }
+            if(this.street.Length < 1)
+            {
+                SimpleMessage sm = new SimpleMessage("Ulica z numerem domu musi byc podana");
+                return false;
+            }
+            if(this.city.Length < 1)
+            {
+                SimpleMessage sm = new SimpleMessage("Podaj miejscowosc");
+                return false;
+            }
+            string zipCodeRegexp = @"^\d{2}-\d{3}$";
+            if ((!Regex.Match(zipCode, zipCodeRegexp).Success))
+            {
+                SimpleMessage sm = new SimpleMessage("Kod pocztowy musi byc w formacie 00-000");
+                return false;
+            }
+            return true;
         }
     }
 }

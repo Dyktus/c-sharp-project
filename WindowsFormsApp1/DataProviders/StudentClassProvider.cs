@@ -13,16 +13,11 @@ namespace DzienniczekUcznia.DataProviders
             return new List<string>
             {
                 // Generate classes names
-                "Klasa 1A",
-                "Klasa 1B",
-                "Klasa 1C",
+                "Klasa 1",
                 "Klasa 2A",
                 "Klasa 2B",
                 "Klasa 2C",
-                "Klasa 3A",
-                "Klasa 3B",
-                "Klasa 4A",
-                "Klasa 4B"
+                "Klasa 3",
             };
         }
     }

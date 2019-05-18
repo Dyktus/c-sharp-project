@@ -112,7 +112,7 @@ namespace MainWindowForm
 
             try
             {
-                string sql = "SELECT * FROM student";
+                string sql = "SELECT * FROM student ORDER BY StudentClass ASC";
                 SQLiteCommand command = new SQLiteCommand(sql, this.dbConnection);
                 SQLiteDataReader reader = command.ExecuteReader();
                 while (reader.Read())

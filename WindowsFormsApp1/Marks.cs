@@ -20,6 +20,7 @@ namespace DzienniczekUcznia
         private string subjectId;
         private RunningLesson parentWindow;
         private SQLiteConnection db;
+        private string markId;
 
         public Marks(string studentName, string studentId, string subjectId, RunningLesson runningLessonWindow)
         {
@@ -99,7 +100,10 @@ namespace DzienniczekUcznia
 
         private void addMark(string newMark)
         {
-
+            if (!this.validateForm())
+            {
+                return;
+            }
             this.db.Open();
             try
             {
@@ -121,6 +125,8 @@ namespace DzienniczekUcznia
             finally
             {
                 this.db.Close();
+                this.markInput.Text = "";
+                this.markTypeInput.Text = "";
                 this.getAllMarks();
             }
         }
@@ -150,16 +156,66 @@ namespace DzienniczekUcznia
 
         private void edytujOceneToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            string mark = this.marksList.FocusedItem.SubItems[1].Text;
-            string markType = this.marksList.FocusedItem.SubItems[2].Text;
+            string mark = this.marksList.FocusedItem.SubItems[2].Text;
+            string markType = this.marksList.FocusedItem.SubItems[1].Text;
 
             this.markInput.Text = mark;
             this.markTypeInput.Text = markType;
-
-            this.saveMarkButton.Text = "Zaktualizuj ocene";
+            this.markId = this.marksList.FocusedItem.SubItems[0].Text;
+            this.saveMarkButton.Visible = false;
+            this.saveChangesButton.Visible = true;
             
         }
 
+        private void saveChangesButton_Click(object sender, EventArgs e)
+        {
+            // Save changes in mark if form is valid
+            if(!this.validateForm())
+            {
+                return;
+            }
+            this.db.Open();
+            
+            try
+            {
+                string sql = "UPDATE student_mark SET Mark='" + this.markInput.Text + 
+                    "', MarkType='" + this.markTypeInput.Text + "' WHERE Id=" + this.markId;
 
+                SQLiteCommand command = new SQLiteCommand(sql, this.db);
+                Int32 affectedRows = command.ExecuteNonQuery();
+                SimpleMessage result = new SimpleMessage("Ocena zaktualizowana. Zmienionych wierszy: " + affectedRows, "Sukces!");
+                return;
+            }
+            catch (SQLiteException exception)
+            {
+                SimpleMessage result = new SimpleMessage(exception.ToString(), "Blad aktualizacji oceny");
+                return;
+            }
+            finally
+            {
+                this.db.Close();
+                this.saveChangesButton.Visible = false;
+                this.saveMarkButton.Visible = true;
+                this.markInput.Text = "";
+                this.markTypeInput.Text = "";
+                this.getAllMarks();
+            }
+        }
+
+        private bool validateForm()
+        {
+            int mark = Convert.ToInt32(this.markInput.Text);
+            if(mark < 1 || mark > 6)
+            {
+                SimpleMessage msg = new SimpleMessage("Ocena musi byc cyfra z przedzialu 1-6");
+                return false;
+            }
+            if(this.markTypeInput.Text.Length < 1)
+            {
+                SimpleMessage msg = new SimpleMessage("Typ oceny nie moze byc pusty");
+                return false;
+            }
+            return true;
+        }
     }
 }

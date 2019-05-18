@@ -42,6 +42,7 @@
             this.marksContextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.usunOceneToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.edytujOceneToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.saveChangesButton = new System.Windows.Forms.Button();
             this.marksContextMenu.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -136,27 +137,42 @@
             this.usunOceneToolStripMenuItem,
             this.edytujOceneToolStripMenuItem});
             this.marksContextMenu.Name = "marksContextMenu";
-            this.marksContextMenu.Size = new System.Drawing.Size(181, 70);
+            this.marksContextMenu.Size = new System.Drawing.Size(138, 48);
             // 
             // usunOceneToolStripMenuItem
             // 
             this.usunOceneToolStripMenuItem.Name = "usunOceneToolStripMenuItem";
-            this.usunOceneToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.usunOceneToolStripMenuItem.Size = new System.Drawing.Size(137, 22);
             this.usunOceneToolStripMenuItem.Text = "Usun ocene";
             this.usunOceneToolStripMenuItem.Click += new System.EventHandler(this.usunOceneToolStripMenuItem_Click);
             // 
             // edytujOceneToolStripMenuItem
             // 
             this.edytujOceneToolStripMenuItem.Name = "edytujOceneToolStripMenuItem";
-            this.edytujOceneToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.edytujOceneToolStripMenuItem.Size = new System.Drawing.Size(137, 22);
             this.edytujOceneToolStripMenuItem.Text = "Edytuj ocene";
             this.edytujOceneToolStripMenuItem.Click += new System.EventHandler(this.edytujOceneToolStripMenuItem_Click);
+            // 
+            // saveChangesButton
+            // 
+            this.saveChangesButton.BackColor = System.Drawing.Color.DarkOrange;
+            this.saveChangesButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.saveChangesButton.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.saveChangesButton.Location = new System.Drawing.Point(269, 435);
+            this.saveChangesButton.Name = "saveChangesButton";
+            this.saveChangesButton.Size = new System.Drawing.Size(206, 45);
+            this.saveChangesButton.TabIndex = 23;
+            this.saveChangesButton.Text = "ZAPISZ ZMIANY";
+            this.saveChangesButton.UseVisualStyleBackColor = false;
+            this.saveChangesButton.Visible = false;
+            this.saveChangesButton.Click += new System.EventHandler(this.saveChangesButton_Click);
             // 
             // Marks
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(497, 523);
+            this.Controls.Add(this.saveChangesButton);
             this.Controls.Add(this.marksList);
             this.Controls.Add(this.markTypeInput);
             this.Controls.Add(this.label2);
@@ -187,5 +203,6 @@
         private System.Windows.Forms.ContextMenuStrip marksContextMenu;
         private System.Windows.Forms.ToolStripMenuItem usunOceneToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem edytujOceneToolStripMenuItem;
+        private System.Windows.Forms.Button saveChangesButton;
     }
 }
